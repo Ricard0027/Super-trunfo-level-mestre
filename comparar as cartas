@@ -1,0 +1,70 @@
+#include <stdio.h>
+
+typedef struct {
+    char estado[50];
+    char codigo[10];
+    char nome[50];
+    unsigned long int populacao;
+    float area;
+    float pib;
+    int pontosTuristicos;
+    float densidadePopulacional;
+    float pibPerCapita;
+    float superPoder;
+} Carta;
+
+void calcularDados(Carta *c) {
+    c->densidadePopulacional = c->populacao / c->area;
+    c->pibPerCapita = c->pib * 1e9 / c->populacao; // assumindo PIB em bilhões
+    c->superPoder = (float)c->populacao 
+                  + c->area 
+                  + c->pib * 1e9 
+                  + c->pontosTuristicos 
+                  + c->pibPerCapita 
+                  + (1.0f / c->densidadePopulacional);
+}
+
+void compararCartas(Carta c1, Carta c2) {
+    printf("\nComparação de Cartas:\n");
+
+    printf("População: Carta 1 venceu (%d)\n", c1.populacao > c2.populacao);
+    printf("Área: Carta 1 venceu (%d)\n", c1.area > c2.area);
+    printf("PIB: Carta 1 venceu (%d)\n", c1.pib > c2.pib);
+    printf("Pontos Turísticos: Carta 1 venceu (%d)\n", c1.pontosTuristicos > c2.pontosTuristicos);
+    printf("Densidade Populacional: Carta 1 venceu (%d)\n", c1.densidadePopulacional < c2.densidadePopulacional);
+    printf("PIB per Capita: Carta 1 venceu (%d)\n", c1.pibPerCapita > c2.pibPerCapita);
+    printf("Super Poder: Carta 1 venceu (%d)\n", c1.superPoder > c2.superPoder);
+}
+
+int main() {
+    Carta c1, c2;
+
+    // Leitura da Carta 1
+    printf("Digite os dados da Carta 1:\n");
+    printf("Estado: "); scanf(" %[^\n]", c1.estado);
+    printf("Código: "); scanf(" %[^\n]", c1.codigo);
+    printf("Nome: "); scanf(" %[^\n]", c1.nome);
+    printf("População: "); scanf("%lu", &c1.populacao);
+    printf("Área (km²): "); scanf("%f", &c1.area);
+    printf("PIB (em bilhões): "); scanf("%f", &c1.pib);
+    printf("Número de Pontos Turísticos: "); scanf("%d", &c1.pontosTuristicos);
+
+    // Leitura da Carta 2
+    printf("\nDigite os dados da Carta 2:\n");
+    printf("Estado: "); scanf(" %[^\n]", c2.estado);
+    printf("Código: "); scanf(" %[^\n]", c2.codigo);
+    printf("Nome: "); scanf(" %[^\n]", c2.nome);
+    printf("População: "); scanf("%lu", &c2.populacao);
+    printf("Área (km²): "); scanf("%f", &c2.area);
+    printf("PIB (em bilhões): "); scanf("%f", &c2.pib);
+    printf("Número de Pontos Turísticos: "); scanf("%d", &c2.pontosTuristicos);
+
+    // Cálculos
+    calcularDados(&c1);
+    calcularDados(&c2);
+
+    // Comparação
+    compararCartas(c1, c2);
+
+    return 0;
+}
